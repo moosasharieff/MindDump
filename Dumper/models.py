@@ -1,5 +1,5 @@
+import django
 from django.db import models
-from django.utils import timezone
 from django.urls import reverse
 
 
@@ -9,7 +9,7 @@ class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=128)
     text = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now())
+    created_date = models.DateTimeField(default=django.utils.timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
     def publish(self):
@@ -39,7 +39,7 @@ class Comments(models.Model):
     post = models.ForeignKey('Dumper.Post', related_name='comments', on_delete=models.DO_NOTHING)
     author = models.CharField(max_length=128)
     text = models.TextField(max_length=500)
-    create_date = models.DateTimeField(default=timezone.now())
+    create_date = models.DateTimeField(default=django.utils.timezone.now)
     approved_comments = models.BooleanField(default=False)
 
     def approve(self):
