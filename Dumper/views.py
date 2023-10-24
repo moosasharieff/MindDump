@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
 from Dumper.models import Post, Comments
 from Dumper.forms import PostFormClass,CommentsFormClass
 from django.utils import timezone
@@ -53,3 +54,48 @@ class DraftListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Post.objects.filter(published_date__isnull=True).order_by('created_date')
+
+def post_publish(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.publish()
+    redirect('post_detail_view', pk=pk)
+
+
+################################################
+################ Comments Views ################
+################################################
+
+@login_required
+def add_comments_to_post(request, pk):
+    """ In this function we are posting a comment on the published POST """
+    post = get_object_or_404(Post, pk=pk) # Fetching 'POST' Class
+
+    if request.method == 'POST':
+        # Fetching 'Comments' Class if user has submitted a comment
+        form = CommentsFormClass(request.POST)
+        # Validating if comment passes all requirements.
+        if form.is_valid():
+            comment = form.save(commit = False)
+            comment.post = post
+            comment.save()
+            # Redirecting to the POST on which was commented.
+            return redirect('post_detail_view', pk=post.pk)
+
+    else:
+        form = CommentsFormClass()
+
+    return render(request, 'Dumper/comment_form.html', {'form':form})
+
+@login_required
+def comment_approve(request, pk):
+    """  """
+    comment = get_object_or_404(Comments, pk=pk)
+    comment.approve()
+    return redirect('post_detail_view', pk=comment.post.pk)
+
+@login_required
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comments, pk=pk)
+    post_pk = comment.post.pk
+    comment.delete()
+    redirect('post_detail_view', pk=post_pk)

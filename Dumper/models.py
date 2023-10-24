@@ -45,6 +45,7 @@ class Comments(models.Model):
     def approve(self):
         """ This method will approve the comment of 'Post' from the user. """
         self.approved_comments = True
+        self.save()
 
     def get_absolute_url(self):
         """ Returning to the homepage of the website which is 'post_list' view """
