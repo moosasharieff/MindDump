@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load staticfiles %}
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>MindDump</title>
@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css"
           type="text/css" media="screen" charset="utf-8">
     {#    CSS Link   #}
-    <link rel="stylesheet" href="css/dumper.css">
+    <link rel="stylesheet" href="static/css/dumper.css">
     <link rel="stylesheet" href="css/spinner.css">
 
     {#    Fonts   #}
@@ -44,11 +44,11 @@
             {% if user.is_authenticated %}
                 <li><a class="{% url 'dumper:create_post_view' %}">New Post</a></li>
                 <li><a class="{% url 'dumper:post_draft_view' %}">Drafts</a></li>
-                <li><a class="{% url 'dumper:logout' %}"></a>Logout</li>
-                <li>Welcome {{ user.username }}</li>
+{#                <li><a class="{% url 'dumper:logout' %}"></a>Logout</li>#}
+{#                <li>Welcome {{ user.username }}</li>#}
             {% else %}
-                <li><a class="{% url 'dumper:login' %}"><span></span></a><span
-                        class="glyphicon glyphicon-log-in"></span></li>
+{#                <li><a class="{% url 'dumper:login' %}"><span></span></a><span#}
+{#                        class="glyphicon glyphicon-log-in"></span></li>#}
             {% endif %}
         </ul>
     </div>
@@ -59,6 +59,8 @@
     <div class="row">
         <div class="col-md-8">
             <div class="blog_posts">
+                <p class="css_test">Testing if CSS is working or not.</p>
+                <p> Assalamualikum Moosa! </p>
                 {% block base_content %}
                     {#    Enter content here   #}
                 {% endblock %}
