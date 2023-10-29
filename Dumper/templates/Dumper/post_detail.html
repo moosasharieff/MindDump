@@ -1,0 +1,55 @@
+{% extends 'Dumper/base.html' %}
+
+{% block base_content %}
+
+    <h1 class="post_title loader">{{ post.text }}</h1>
+    {% if post.published_date %}
+        <div class="date postdate">
+            {{ post.published_date }}
+        </div>
+    {% else %}
+        <a class="btn btn-primary" href="{% url 'dumper:post_publish' pk=post.pk %}">Publish</a>
+    {% endif %}
+
+    <p class="post_content">{{ post.title|safe|linebreakers }}</p>
+
+    {#    Adding functionality to edit or remove the POST for logged in User #}
+    {% if user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url 'dumper:edit_post_view' %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-primary" href="{% url 'dumper:post_remove_view' %}"><span class="glyphicon glyphicon-remove"></span></a>
+    {% endif %}
+
+    <hr>
+
+    {#    Add a comment    #}
+    <a class="btn btn-primary btn-content" href="{% url 'dumper:add_comments_to_post' pk=post.pk %}">Add Comment</a>
+
+    {#    Listing out all the comments   #}
+    <div class="container">
+
+        {% for comment in post.comments.all %}
+            <br>
+            {% if user.is_authenticated or comment.approved_comments %}
+                {{ comment.created_date }}
+
+                {% if not comment.approved_comments %}
+                    <a class="btn btn-default" href="{% url 'dumper:comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                    <a class="btn btn-default" href="{% url 'dumper:comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                {% endif %}
+
+                <p>{{ comment.text }}</p>
+                <p>Posted By: {{ comment.author }}</p>
+
+            {% endif %}
+        {% empty %}
+            <p>No Comments</p>
+        {% endfor %}
+
+
+
+
+    </div>
+
+
+
+{% endblock %}
