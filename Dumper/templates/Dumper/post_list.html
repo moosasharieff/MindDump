@@ -1,0 +1,17 @@
+{% extends 'Dumper/base.html' %}
+
+{% block base_content %}
+
+    <div class="centerstage">
+        {% for post in post_list %}
+            <div class="post">
+                <h3><a href="{% url 'dumper:post_detail_view' pk=post.pk %}">{{ post.title }}</a></h3>
+            </div>
+            <div class="published_date">
+                <p>Published on : {{ post.published_date|date:"D M Y" }}</p>
+            </div>
+            <a href="{% url 'dumper:add_comments_to_post' pk=post.pk %}">Comments: {{ post.approve_comments.count }}</a>
+        {% endfor %}
+    </div>
+
+{% endblock %}
