@@ -1,0 +1,12 @@
+{% extends 'Dumper/base.html' %}
+
+{% block base_content %}
+
+    {% for post in posts %}
+        <div class="post">
+            <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
+            <h1><a href="{% url 'dumper:post_detail_view' pk=post.pk %}"></a></h1>
+            <p>{{ post.text|truncatechars:100 }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
