@@ -1,0 +1,11 @@
+{% extends 'Dumper/base.html' %}
+
+{% block base_content %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <h3>Are you sure you want to delete {{ object }}?</h3>
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    </form>
+
+{% endblock %}
