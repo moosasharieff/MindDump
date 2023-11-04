@@ -53,10 +53,11 @@
 
         {#  Right aligned Elements  #}
         <ul class="nav navbar-nav navbar-right">
-            {% if user.if_authenticated %}
-                <li>Welcome {{ user.username }}</li>
+            {% if user.is_authenticated %}
+                <li class="nav-item"><a href="#">Welcome {{ user.username }}</a></li>
+                <li class="nav-item"><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
-                <li class="nav navbar-right"><a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span>Login</a>
+                <li class="nav-item"><a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span></a>
                 </li>
             {% endif %}
 

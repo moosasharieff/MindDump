@@ -17,10 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from Dumper import views
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.HomeView.as_view(), name='home_page'),
     re_path(r'^accounts/login/$', LoginView.as_view(), name='login'),
+    re_path(r'^accounts/logout/$', LogoutView.as_view(), name='logout'),
 ]
