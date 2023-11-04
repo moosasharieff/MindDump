@@ -2,3 +2,4 @@
 
 .idea/
 Dumper/__pycache__/
+db.sqlite3
